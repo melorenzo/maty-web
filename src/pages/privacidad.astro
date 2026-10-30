@@ -1,0 +1,65 @@
+---
+import Page from '../layouts/Page.astro';
+import Window from '../components/astro/Window.astro';
+import Callout from '../components/astro/Callout.astro';
+---
+
+<Page
+  title="Privacidad"
+  eyebrow="~/privacidad"
+  description="Qué datos recopila este sitio, para qué se usan y cuánto tiempo se guardan."
+>
+  <Window title="politica-de-privacidad" tone="accent">
+    <div class="prose-maty max-w-none">
+      <p>
+        Este sitio es minimalista a propósito: no usa cookies de seguimiento, no carga analítica de
+        terceros y no vende ni comparte datos con nadie.
+      </p>
+
+      <h2>Qué datos se guardan</h2>
+      <ul>
+        <li>
+          <strong>Formulario de contacto:</strong> nombre, email, motivo y mensaje. Se usan
+          únicamente para responderte.
+        </li>
+        <li>
+          <strong>Códigos promocionales:</strong> se registra el código emitido y que fue usado, con
+          una huella cifrada del email para evitar que un mismo código se reutilice.
+        </li>
+        <li>
+          <strong>Preferencias locales:</strong> el tema claro u oscuro se guarda en tu navegador
+          (<code>localStorage</code>). No se envía a ningún servidor.
+        </li>
+      </ul>
+
+      <h2>Protección contra bots</h2>
+      <p>
+        El formulario está protegido con Cloudflare Turnstile, que verifica que el envío sea humano
+        sin mostrar un CAPTCHA de imágenes.
+      </p>
+
+      <h2>Retención</h2>
+      <p>
+        Los mensajes enviados por el formulario se conservan mientras dure la conversación y el
+        tiempo razonable para responder un reclamo. Los códigos promocionales vencen a los 30 días.
+      </p>
+
+      <h2>Tus derechos</h2>
+      <p>
+        Podés pedir acceso, rectificación o eliminación de tus datos escribiendo a
+        <a href="mailto:melorenzo@fullware.com.ar">melorenzo@fullware.com.ar</a>. Los datos de
+        contacto se archivan en el servidor de correo y en el hosting del sitio, bajo control de
+        Matías Lorenzo.
+      </p>
+    </div>
+
+    <div class="mt-6">
+      <Callout tone="muted" title="TODO(matias)">
+        <p>
+          Revisar esta política con un profesional de datos personales antes de publicar, y
+          completar el nombre del responsable, el domicilio y la fecha de actualización.
+        </p>
+      </Callout>
+    </div>
+  </Window>
+</Page>

@@ -1,0 +1,424 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Window from '../components/astro/Window.astro';
+import Dock from '../components/astro/Dock.astro';
+import StatusBar from '../components/astro/StatusBar.astro';
+import BootSequence from '../components/astro/BootSequence.astro';
+import ProjectCard from '../components/astro/ProjectCard.astro';
+import TimelineItem from '../components/astro/TimelineItem.astro';
+import StackGrid from '../components/astro/StackGrid.astro';
+import Tag from '../components/astro/Tag.astro';
+import Callout from '../components/astro/Callout.astro';
+import Footer from '../components/astro/Footer.astro';
+import CommandPalette from '../components/react/CommandPalette.tsx';
+import Terminal from '../components/react/Terminal.tsx';
+import ThemeToggle from '../components/react/ThemeToggle.tsx';
+import { stack } from '../data/stack';
+import { experiencia } from '../data/experiencia';
+import { formacion, certificaciones } from '../data/formacion';
+import { servicios } from '../data/servicios';
+import { metodologia, rutas, materias } from '../data/aula';
+import { manifiesto, herramientas, compromisos } from '../data/foss';
+import { getLatestPosts, formatDate } from '../lib/blog';
+import { AUTHOR } from '../data/site';
+
+const proyectos = (await getCollection('proyectos'))
+  .filter((proyecto) => !proyecto.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const destacados = proyectos.filter((proyecto) => proyecto.data.featured).slice(0, 3);
+const posts = await getLatestPosts(4);
+
+const contenido = {
+  stack,
+  experiencia,
+  formacion,
+  certificaciones,
+  servicios,
+  metodologia,
+  rutas,
+  materias,
+  manifiesto,
+  herramientas,
+  compromisos,
+};
+
+const terminalContext = {
+  name: AUTHOR.name,
+  role: AUTHOR.role,
+  city: AUTHOR.city,
+  email: AUTHOR.email,
+  years: '+18',
+  projects: proyectos.map((proyecto) => ({
+    title: proyecto.data.title,
+    status: proyecto.data.status,
+    summary: proyecto.data.summary,
+  })),
+  services: contenido.servicios.map((servicio) => ({
+    id: servicio.id,
+    name: servicio.name,
+    tagline: servicio.tagline,
+  })),
+  classroom: contenido.metodologia.map((item) => item.title),
+  manifesto: contenido.manifiesto,
+};
+
+const dockApps = [
+  { id: 'about', label: 'about', href: '#about', icon: 'about' },
+  { id: 'stack', label: 'stack', href: '#stack', icon: 'stack' },
+  { id: 'projects', label: 'proyectos', href: '#proyectos', icon: 'projects' },
+  { id: 'aula', label: 'aula', href: '#aula', icon: 'aula' },
+  { id: 'foss', label: 'foss', href: '#software-libre', icon: 'foss' },
+  { id: 'arcade', label: 'arcade', href: '/arcade', icon: 'arcade' },
+  { id: 'blog', label: 'blog', href: '/blog', icon: 'blog' },
+  { id: 'servicios', label: 'servicios', href: '/servicios', icon: 'servicios' },
+  { id: 'cv', label: 'cv', href: '/cv', icon: 'cv' },
+  { id: 'contacto', label: 'contacto', href: '/contacto', icon: 'contacto' },
+];
+
+const bootLines = [
+  { text: 'Started TeachOS v1.0 (matiaslorenzo)' },
+  { text: 'Mounting /dev/educacion' },
+  { text: 'Mounting /dev/tecnologia' },
+  { text: 'Starting software libre.service' },
+  { text: 'Loading proyectos… 8 entries' },
+  { text: 'Reached target Multi-user system', ok: true },
+];
+---
+
+<Base>
+  <StatusBar
+    items={[
+      { label: 'user', value: 'maty' },
+      { label: 'host', value: 'matiaslorenzo.com.ar' },
+      { label: 'role', value: 'docente · dev · foss' },
+      { label: 'status', value: 'online' },
+    ]}
+  />
+
+  <main id="contenido" class="mx-auto max-w-6xl px-4 pb-28 pt-8 sm:pt-12">
+    <section class="mb-10 grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+      <div>
+        <h1 class="text-3xl font-bold tracking-tight sm:text-5xl">
+          Hola, soy <span class="text-accent">Matías Lorenzo</span>
+        </h1>
+        <p class="mt-4 max-w-xl text-lg text-text-muted">
+          Docente de tecnología y analista de sistemas. Enseño a pensar con tecnología, construyo
+          software que funciona y trabajo con herramientas libres. Cuando algo se puede automatizar,
+          se automatiza.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a
+            href="/contacto"
+            class="rounded-lg bg-accent px-5 py-2.5 font-semibold text-accent-contrast transition-opacity hover:opacity-90"
+          >
+            Escribime
+          </a>
+          <a
+            href="/proyectos"
+            class="rounded-lg border border-border bg-surface px-5 py-2.5 font-semibold transition-colors hover:bg-surface-2"
+          >
+            Ver proyectos
+          </a>
+          <a
+            href="/arcade"
+            class="rounded-lg border border-border bg-surface px-5 py-2.5 font-semibold transition-colors hover:bg-surface-2"
+          >
+            Jugar al arcade
+          </a>
+        </div>
+      </div>
+
+      <div class="relative mx-auto w-full max-w-xs">
+        <div class="aspect-square overflow-hidden rounded-full border-4 border-surface bg-surface-2 shadow-window">
+          <svg viewBox="0 0 200 200" class="size-full" role="img" aria-label="Avatar de Matías Lorenzo">
+            <rect width="200" height="200" fill="var(--surface-2)" />
+            <circle cx="100" cy="78" r="38" fill="var(--surface-3)" />
+            <path d="M32 200c0-38 30-62 68-62s68 24 68 62Z" fill="var(--surface-3)" />
+            <text x="100" y="90" text-anchor="middle" font-size="34" fill="var(--text-muted)" font-family="ui-monospace, monospace">
+              ML
+            </text>
+          </svg>
+        </div>
+        <p class="mt-3 text-center font-mono text-xs text-text-muted">
+          avatar.svg · 1:1 · reemplazalo sin tocar código
+        </p>
+      </div>
+    </section>
+
+    <section class="mb-12" aria-label="Registro de arranque">
+      <BootSequence lines={bootLines} />
+    </section>
+
+    <div class="grid gap-8">
+      <Window title="about.txt" id="about" tone="accent">
+        <div class="prose-maty max-w-none">
+          <p>
+            Trabajo con tecnología desde antes de que se llamara así: primero como soporte, después
+            en automatización de procesos administrativos, y en paralelo enseñando en schools y en
+            la universidad.
+          </p>
+          <p>
+            Mi idea es simple: la tecnología se enseña con la tecnología. Los estudiantes
+            programan, automatizan, rompen y arreglan. Después, esa misma lógica se usa para
+            resolver problemas reales de gestión, educación y comunicación.
+          </p>
+          <p>
+            Este sitio es la versión pública de eso: un escritorio Linux con mis proyectos, mis
+            clases, mi blog y un arcade. El código está abierto.
+          </p>
+        </div>
+      </Window>
+
+      <Window title="stack" id="stack">
+        <StackGrid groups={contenido.stack} />
+      </Window>
+
+      <Window title="proyectos" id="proyectos" status="running">
+        <div slot="actions">
+          <a href="/proyectos" class="font-mono text-xs text-accent hover:underline">
+            ver todos →
+          </a>
+        </div>
+        <div class="grid gap-4 md:grid-cols-3">
+          {destacados.map((proyecto) => <ProjectCard project={proyecto} />)}
+        </div>
+        <p class="mt-4 font-mono text-xs text-text-muted">
+          {proyectos.length} proyectos publicados · <a class="text-accent underline underline-offset-2" href="/proyectos">ficha completa</a>
+        </p>
+      </Window>
+
+      <Window title="experiencia.log" id="experiencia" status="running">
+        <ol class="space-y-8">
+          {contenido.experiencia.map((item) => <TimelineItem item={item} />)}
+        </ol>
+        <p class="mt-6 font-mono text-xs text-text-muted">
+          <a class="text-accent hover:underline" href="/cv">ver el CV completo</a>
+        </p>
+      </Window>
+
+      <Window title="formacion" id="formacion">
+        <div class="grid gap-6 md:grid-cols-2">
+          <div>
+            <h3 class="font-mono-label mb-3 text-text-muted">Título</h3>
+            <ul class="space-y-4">
+              {
+                contenido.formacion.map((item) => (
+                  <li>
+                    <p class="font-semibold">{item.title}</p>
+                    <p class="text-sm text-accent">{item.org}</p>
+                    <p class="text-sm text-text-muted">{item.period}</p>
+                    <p class="mt-1 text-sm text-text-muted">{item.detail}</p>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-mono-label mb-3 text-text-muted">Certificaciones</h3>
+            <ul class="space-y-2">
+              {
+                contenido.certificaciones.map((item) => (
+                  <li class="flex flex-wrap items-baseline justify-between gap-2 text-sm">
+                    <span>{item.title}</span>
+                    <span class="font-mono text-xs text-text-muted">{item.org} · {item.year}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </Window>
+
+      <Window title="aula" id="aula" status="running">
+        <div class="grid gap-6 md:grid-cols-2">
+          <div>
+            <h3 class="font-mono-label mb-3 text-text-muted">Cómo enseño</h3>
+            <ul class="space-y-3">
+              {
+                contenido.metodologia.map((item) => (
+                  <li>
+                    <p class="font-semibold">{item.title}</p>
+                    <p class="text-sm text-text-muted">{item.summary}</p>
+                    <ul class="mt-1 flex flex-wrap gap-1.5">
+                      {item.topics.map((topic) => (
+                        <Tag label={topic} as="li" />
+                      ))}
+                    </ul>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-mono-label mb-3 text-text-muted">Materias</h3>
+            <ul class="flex flex-wrap gap-1.5">
+              {contenido.materias.map((materia) => <Tag label={materia} as="li" />)}
+            </ul>
+
+            <h3 class="font-mono-label mb-3 mt-6 text-text-muted">Rutas de aprendizaje</h3>
+            <ul class="space-y-3">
+              {
+                contenido.rutas.map((ruta) => (
+                  <li class="rounded-lg border border-border bg-surface-2 p-3">
+                    <p class="font-semibold">{ruta.title}</p>
+                    <p class="font-mono text-xs text-text-muted">
+                      {ruta.level} · {ruta.duration}
+                    </p>
+                    <p class="mt-1 text-sm text-text-muted">{ruta.outcome}</p>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+        <p class="mt-4 font-mono text-xs text-text-muted">
+          <a class="text-accent hover:underline" href="/aula">más sobre el aula</a>
+        </p>
+      </Window>
+
+      <Window title="software-libre" id="software-libre" status="running">
+        <div class="grid gap-6 md:grid-cols-2">
+          <div>
+            <h3 class="font-mono-label mb-3 text-text-muted">Por qué</h3>
+            <ul class="space-y-3">
+              {
+                contenido.manifiesto.map((item) => (
+                  <li class="flex gap-2 text-sm">
+                    <span class="text-ok" aria-hidden="true">»</span>
+                    <span>{item}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-mono-label mb-3 text-text-muted">Herramientas que uso y enseño</h3>
+            <ul class="space-y-2 text-sm">
+              {
+                contenido.herramientas.slice(0, 8).map((tool) => (
+                  <li>
+                    <span class="font-semibold">{tool.name}</span>
+                    <span class="text-text-muted"> · {tool.category}</span>
+                    <p class="text-text-muted">{tool.why}</p>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+        <div class="mt-5">
+          <Callout title="compromisos">
+            <ul class="space-y-1">
+              {contenido.compromisos.map((item) => <li>{item}</li>)}
+            </ul>
+          </Callout>
+        </div>
+        <p class="mt-4 font-mono text-xs text-text-muted">
+          <a class="text-accent hover:underline" href="/software-libre">manifiesto completo</a>
+        </p>
+      </Window>
+
+      <Window title="servicios" id="servicios" status="running">
+        <div class="grid gap-4 md:grid-cols-3">
+          {
+            contenido.servicios.map((servicio) => (
+              <div class="rounded-lg border border-border bg-surface-2 p-4">
+                <h3 class="font-semibold">{servicio.name}</h3>
+                <p class="mt-1 text-sm text-text-muted">{servicio.tagline}</p>
+                <p class="mt-3 font-mono text-xs text-accent">se cotiza a medida</p>
+              </div>
+            ))
+          }
+        </div>
+        <p class="mt-4 font-mono text-xs text-text-muted">
+          <a class="text-accent hover:underline" href="/servicios">cómo trabajamos</a>
+        </p>
+      </Window>
+
+      <Window title="arcade" id="arcade" status="testing">
+        <div class="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
+          <div>
+            <p>
+              Un invaders propio, hecho en canvas sin una sola librería. Si lo ganás te llevás un
+              <strong> código promocional</strong> para una asesoría, un diseño web o una
+              automatización.
+            </p>
+            <p class="mt-2 text-sm text-text-muted">
+              El motor está escrito en TypeScript y es parte del código abierto de este sitio: se
+              puede leer, copiar y modificar.
+            </p>
+            <a
+              href="/arcade"
+              class="mt-4 inline-block rounded-lg bg-accent px-4 py-2 font-semibold text-accent-contrast hover:opacity-90"
+            >
+              Jugar
+            </a>
+          </div>
+          <div class="terminal-surface p-4 text-center text-xs">
+            <p class="text-emerald-400">▓▓▓▓▓▓▓▓▓▓</p>
+            <p class="text-amber-300">▓▓ ▓▓ ▓▓▓</p>
+            <p class="text-cyan-300">▓▓▓▓▓▓▓▓▓▓</p>
+            <p class="mt-3 text-slate-400">PULSA ESPACIO PARA DISPARAR</p>
+          </div>
+        </div>
+      </Window>
+
+      <Window title="blog" id="blog" status="running">
+        {
+          posts.length === 0 ? (
+            <p class="text-sm text-text-muted">
+              No pude leer el feed del blog en este build. <a class="text-accent hover:underline" href="https://blog.fullware.com.ar">Ir directo al blog</a>.
+            </p>
+          ) : (
+            <ul class="space-y-3">
+              {posts.map((post) => (
+                <li class="flex flex-wrap items-baseline gap-x-3">
+                  <span class="font-mono text-xs text-text-muted">{formatDate(post.date)}</span>
+                  <a class="font-semibold hover:text-accent" href={post.link} target="_blank" rel="noreferrer noopener">
+                    {post.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+        <p class="mt-4 font-mono text-xs text-text-muted">
+          <a class="text-accent hover:underline" href="/blog">todos los artículos</a>
+        </p>
+      </Window>
+
+      <Window title="terminal" id="terminal">
+        <Terminal client:visible context={terminalContext} />
+        <p class="mt-3 font-mono text-xs text-text-muted">
+          tips: <span class="text-terminal">help</span> · <span class="text-terminal">man</span> ·
+          <span class="text-terminal">projects</span> · <span class="text-terminal">sudo hire-me</span>
+        </p>
+      </Window>
+
+      <Window title="contacto" id="contacto" tone="accent">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p class="text-lg font-semibold">¿Hablamos?</p>
+            <p class="mt-1 text-sm text-text-muted">
+              Docencia, diseño web, automatización o simplemente una idea que no sabés por
+              dónde empezar.
+            </p>
+          </div>
+          <a
+            href="/contacto"
+            class="rounded-lg bg-accent px-5 py-2.5 font-semibold text-accent-contrast hover:opacity-90"
+          >
+            Abrir formulario
+          </a>
+        </div>
+      </Window>
+    </div>
+  </main>
+
+  <Dock apps={dockApps} />
+  <CommandPalette client:idle />
+  <ThemeToggle client:idle />
+  <Footer />
+</Base>

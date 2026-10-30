@@ -1,0 +1,87 @@
+---
+import Page from '../layouts/Page.astro';
+import Window from '../components/astro/Window.astro';
+import Callout from '../components/astro/Callout.astro';
+import TimelineItem from '../components/astro/TimelineItem.astro';
+import { experiencia } from '../data/experiencia';
+import { formacion, certificaciones } from '../data/formacion';
+import { stack } from '../data/stack';
+import { AUTHOR } from '../data/site';
+
+const contenido = { experiencia, formacion, certificaciones, stack };
+---
+
+<Page
+  title="CV"
+  eyebrow="~/cv"
+  description="Trayectoria completa: docencia, análisis de sistemas, infraestructura y formación."
+>
+  <Window title="perfil" tone="accent">
+    <p class="text-lg">
+      {AUTHOR.name} — {AUTHOR.role}. {AUTHOR.city}.
+    </p>
+    <p class="mt-3 text-text-muted">
+      Más de 18 años en tecnología, desde soporte e infraestructura hasta automatización con IA y
+      docencia en secundario, terciario y universidad. Un perfil híbrido: sistemas que hay que
+      sostener, procesos que se pueden automatizar y personas que aprenden a usarlos.
+    </p>
+  </Window>
+
+  <Window title="experiencia.log" class="mt-8" status="running">
+    <ol class="space-y-8">
+      {contenido.experiencia.map((item) => <TimelineItem item={item} />)}
+    </ol>
+  </Window>
+
+  <Window title="formacion" class="mt-8">
+    <ul class="space-y-4">
+      {
+        contenido.formacion.map((item) => (
+          <li>
+            <p class="font-semibold">{item.title}</p>
+            <p class="text-sm text-accent">{item.org}</p>
+            <p class="font-mono text-xs text-text-muted">{item.period}</p>
+            <p class="mt-1 text-sm text-text-muted">{item.detail}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </Window>
+
+  <Window title="certificaciones" class="mt-8">
+    <ul class="grid gap-2 md:grid-cols-2">
+      {
+        contenido.certificaciones.map((item) => (
+          <li class="flex flex-wrap items-baseline justify-between gap-2 rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm">
+            <span>{item.title}</span>
+            <span class="font-mono text-xs text-text-muted">
+              {item.org} · {item.year}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </Window>
+
+  <Window title="stack" class="mt-8">
+    <dl class="space-y-4">
+      {
+        contenido.stack.map((grupo) => (
+          <div>
+            <dt class="font-mono-label text-accent">{grupo.title}</dt>
+            <dd class="mt-1 text-sm text-text-muted">{grupo.items.map((item) => item.name).join(' · ')}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Window>
+
+  <Window title="descargar" class="mt-8">
+    <Callout tone="muted" title="TODO(matias)">
+      <p>
+        Falta el PDF del CV con el diseño final para agregarlo acá como descarga. Mientras tanto, la
+        versión de texto completa es esta.
+      </p>
+    </Callout>
+  </Window>
+</Page>

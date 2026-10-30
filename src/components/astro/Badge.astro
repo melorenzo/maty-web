@@ -1,0 +1,23 @@
+---
+interface Props {
+  label: string;
+  tone?: 'accent' | 'ok' | 'terminal' | 'muted' | 'link';
+  class?: string;
+}
+
+const { label, tone = 'muted', class: className = '' } = Astro.props;
+---
+
+<span
+  class:list={[
+    'inline-flex items-center rounded-full border px-2.5 py-0.5 font-mono text-xs',
+    tone === 'accent' && 'border-accent/40 bg-accent-soft text-accent',
+    tone === 'ok' && 'border-ok/40 bg-ok-soft text-ok',
+    tone === 'terminal' && 'border-border bg-surface-2 text-terminal',
+    tone === 'muted' && 'border-border bg-surface-2 text-text-muted',
+    tone === 'link' && 'border-link/40 bg-surface-2 text-link',
+    className,
+  ]}
+>
+  {label}
+</span>

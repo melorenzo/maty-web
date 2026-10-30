@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#07121f" />
+  <g opacity="0.12" stroke="#4d93ff" stroke-width="1">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200" />
+    <path d="M100 0v630M200 0v630M300 0v630M400 0v630M500 0v630M600 0v630M700 0v630M800 0v630M900 0v630M1000 0v630M1100 0v630" />
+  </g>
+  <rect x="80" y="120" width="1040" height="390" rx="18" fill="#0e2036" stroke="#23486d" stroke-width="2" />
+  <circle cx="120" cy="158" r="9" fill="#ff5f57" />
+  <circle cx="150" cy="158" r="9" fill="#febc2e" />
+  <circle cx="180" cy="158" r="9" fill="#28c840" />
+  <text x="230" y="165" font-family="ui-monospace, monospace" font-size="22" fill="#9db4c9">maty@desktop:~$ whoami</text>
+  <text x="120" y="250" font-family="system-ui, sans-serif" font-size="62" font-weight="700" fill="#e8f1f8">Matías Lorenzo</text>
+  <text x="120" y="315" font-family="system-ui, sans-serif" font-size="32" fill="#ff7a4d">Docente de tecnología · developer · software libre</text>
+  <text x="120" y="390" font-family="ui-monospace, monospace" font-size="24" fill="#2fd9a8">Enseño, construyo y automatizo con herramientas libres.</text>
+  <text x="120" y="440" font-family="ui-monospace, monospace" font-size="22" fill="#9db4c9">matiaslorenzo.com.ar</text>
+</svg>

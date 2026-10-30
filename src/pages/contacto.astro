@@ -1,0 +1,83 @@
+---
+import Page from '../layouts/Page.astro';
+import Window from '../components/astro/Window.astro';
+import Callout from '../components/astro/Callout.astro';
+import ContactForm from '../components/react/ContactForm.tsx';
+import { emails } from '../data/links';
+---
+
+<Page
+  title="Contacto"
+  eyebrow="~/contacto"
+  description="Docencia, asesoría, diseño web o automatización. Escribime y te respondo."
+>
+  <div class="grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-start">
+    <Window title="contacto.sh" tone="accent">
+      <ContactForm client:visible />
+    </Window>
+
+    <div class="space-y-6">
+      <Window title="otros-canales">
+        <ul class="space-y-2 text-sm">
+          {
+            emails.map((email) => (
+              <li>
+                <a class="font-mono text-accent hover:underline" href={`mailto:${email}`}>
+                  {email}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a
+              class="font-mono text-accent hover:underline"
+              href="https://github.com/melorenzo"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              github.com/melorenzo
+            </a>
+          </li>
+          <li>
+            <a
+              class="font-mono text-accent hover:underline"
+              href="https://www.linkedin.com/in/matias-lorenzo33"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              linkedin.com/in/matias-lorenzo33
+            </a>
+          </li>
+          <li>
+            <a
+              class="font-mono text-accent hover:underline"
+              href="https://blog.fullware.com.ar"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              blog.fullware.com.ar
+            </a>
+          </li>
+        </ul>
+      </Window>
+
+      <Window title="disponibilidad">
+        <p class="text-sm text-text-muted">
+          100% remoto · full-time · de lunes a viernes, de 9 a 18 hs (Argentina).
+        </p>
+        <p class="mt-3 text-sm text-text-muted">
+          Respondo los mensajes en el día. Si es una consulta de docencia o un taller, contame la
+          fecha y la cantidad de personas: ahí suele estar la diferencia entre una charla y un
+          proyecto.
+        </p>
+      </Window>
+
+      <Callout title="privacidad" tone="muted">
+        <p>
+          Lo que escribas acá se usa únicamente para responderte. No hay cookies de seguimiento ni
+          analítica de terceros. Podés leer los detalles en <a class="text-accent underline underline-offset-2" href="/privacidad">/privacidad</a>.
+        </p>
+      </Callout>
+    </div>
+  </div>
+</Page>

@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Badge from './Badge.astro';
+import Tag from './Tag.astro';
+
+interface Props {
+  project: CollectionEntry<'proyectos'>;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+---
+
+<article
+  class="group flex h-full flex-col rounded-lg border border-border bg-surface p-5 transition-shadow hover:shadow-soft"
+>
+  <header class="mb-3 flex items-start justify-between gap-3">
+    <h3 class="text-lg font-bold tracking-tight">
+      <a href={`/proyectos/${project.id}`} class="hover:text-accent">{data.title}</a>
+    </h3>
+    <Badge
+      label={data.status}
+      tone={data.status === 'running' ? 'ok' : data.status === 'building' ? 'accent' : 'muted'}
+    />
+  </header>
+
+  <p class="mb-4 flex-1 text-sm text-text-muted">{data.summary}</p>
+
+  <ul class="mb-4 flex flex-wrap gap-1.5">
+    {data.stack.slice(0, 5).map((item) => <Tag label={item} as="li" />)}
+  </ul>
+
+  <footer class="flex items-center justify-between border-t border-border pt-3 font-mono text-xs">
+    <span class="text-text-muted">{data.year}</span>
+    <a href={`/proyectos/${project.id}`} class="text-accent hover:underline">
+      ver ficha →
+    </a>
+  </footer>
+</article>

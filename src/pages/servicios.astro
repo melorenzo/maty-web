@@ -1,0 +1,106 @@
+---
+import Page from '../layouts/Page.astro';
+import Window from '../components/astro/Window.astro';
+import Callout from '../components/astro/Callout.astro';
+import Tag from '../components/astro/Tag.astro';
+import { servicios } from '../data/servicios';
+
+const contenido = { servicios };
+---
+
+<Page
+  title="Servicios"
+  eyebrow="~/servicios"
+  description="Asesoría técnica, diseño web y automatización. Trabajo por proyecto, con precios a medida y sin vueltas."
+>
+  <div class="mb-8">
+    <Callout title="cómo funciona" tone="muted">
+      <p>
+        Cada proyecto arranca con una conversación y termina con algo que funciona: código en
+        producción, un informe con prioridades, o las dos cosas. Los valores se cotizan según el
+        alcance; si tenés un código promocional del arcade, se aplica sobre el primer proyecto.
+      </p>
+    </Callout>
+  </div>
+
+  {
+    contenido.servicios.map((servicio, index) => (
+      <Window title={`servicio-${index + 1}`} status="running" class="mb-8">
+        <h2 class="text-xl font-bold tracking-tight">{servicio.name}</h2>
+        <p class="mt-1 text-accent">{servicio.tagline}</p>
+
+        <div class="mt-5 grid gap-6 md:grid-cols-2">
+          <div>
+            <h3 class="font-mono-label mb-2 text-text-muted">qué es</h3>
+            <ul class="space-y-2">
+              {servicio.what.map((item) => (
+                <li class="flex gap-2 text-sm text-text-muted">
+                  <span class="text-ok" aria-hidden="true">
+                    ›
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-mono-label mb-2 text-text-muted">para quién es</h3>
+            <p class="text-sm text-text-muted">{servicio.forWho}</p>
+
+            <h3 class="font-mono-label mb-2 mt-5 text-text-muted">entregables</h3>
+            <ul class="space-y-1.5">
+              {servicio.deliverables.map((item) => (
+                <li class="flex gap-2 text-sm text-text-muted">
+                  <span class="text-accent" aria-hidden="true">
+                    +
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-6 rounded-lg border border-border bg-surface-2 p-4">
+          <h3 class="font-mono-label mb-3 text-text-muted">cómo trabajamos</h3>
+          <ol class="grid gap-3 sm:grid-cols-2">
+            {servicio.process.map((paso) => (
+              <li>
+                <p class="text-sm font-semibold">{paso.title}</p>
+                <p class="text-sm text-text-muted">{paso.description}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
+          <p class="text-sm text-text-muted">{servicio.cta}</p>
+          <a
+            href={`/contacto?motivo=${servicio.id}`}
+            class="rounded-lg bg-accent px-4 py-2 font-semibold text-accent-contrast hover:opacity-90"
+          >
+            Consultar
+          </a>
+        </div>
+      </Window>
+    ))
+  }
+
+  <Window title="codigos-promocionales" class="mt-8">
+    <p class="text-sm text-text-muted">
+      ¿Jugaste al arcade y ganaste un código? Sumalo en el formulario de contacto: se valida al
+      enviar y se aplica sobre el primer proyecto.
+    </p>
+    <ul class="mt-3 flex flex-wrap gap-1.5">
+      <Tag label="10% de descuento" as="li" />
+      <Tag label="sesión inicial de 30 min sin cargo" as="li" />
+      <Tag label="no acumulable" as="li" />
+    </ul>
+    <p class="mt-4 font-mono text-xs">
+      <a class="text-accent underline underline-offset-2" href="/promo">términos del promo</a>
+      ·
+      <a class="text-accent underline underline-offset-2" href="/arcade">ir al arcade</a>
+    </p>
+  </Window>
+</Page>

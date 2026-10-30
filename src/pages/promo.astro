@@ -1,0 +1,81 @@
+---
+import Page from '../layouts/Page.astro';
+import Window from '../components/astro/Window.astro';
+import Callout from '../components/astro/Callout.astro';
+import Tag from '../components/astro/Tag.astro';
+---
+
+<Page
+  title="Códigos promocionales"
+  eyebrow="~/promo"
+  description="Qué otorga el código del arcade, cuánto dura y qué condiciones tiene."
+>
+  <Window title="promo --reglas" tone="accent">
+    <div class="prose-maty max-w-none">
+      <p>
+        Cada código del arcade trae <strong>10% de descuento en el primer proyecto</strong> más una
+        <strong>sesión inicial de 30 minutos sin cargo</strong>. El código sortea uno de los tres
+        servicios: asesoría técnica, diseño web o automatización.
+      </p>
+    </div>
+
+    <ul class="mt-5 grid gap-2 md:grid-cols-2">
+      <li class="rounded-lg border border-border bg-surface-2 p-3 text-sm">
+        <span class="font-semibold">Vigencia:</span> 30 días desde la emisión del código.
+      </li>
+      <li class="rounded-lg border border-border bg-surface-2 p-3 text-sm">
+        <span class="font-semibold">Usos:</span> un solo uso, por cliente y por proyecto.
+      </li>
+      <li class="rounded-lg border border-border bg-surface-2 p-3 text-sm">
+        <span class="font-semibold">Acumulabilidad:</span> no acumulable con otros descuentos o
+        promociones.
+      </li>
+      <li class="rounded-lg border border-border bg-surface-2 p-3 text-sm">
+        <span class="font-semibold">Emisión:</span> un código por IP cada 24 horas y un tope diario
+        de códigos.
+      </li>
+    </ul>
+
+    <div class="mt-5 flex flex-wrap gap-1.5">
+      <Tag label="10% de descuento" />
+      <Tag label="30 min sin cargo" />
+      <Tag label="no acumulable" />
+      <Tag label="30 días" />
+    </div>
+  </Window>
+
+  <Window title="como-se-usa" class="mt-8">
+    <ol class="space-y-3 text-sm text-text-muted">
+      <li class="flex gap-3">
+        <span class="font-mono text-xs text-accent">01</span>
+        <span>Ganás el arcade y el sitio te muestra un código.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-xs text-accent">02</span>
+        <span>Lo pegás en el campo «código» del formulario de contacto.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-xs text-accent">03</span>
+        <span>El código se valida al enviar el mensaje y queda registrado como usado.</span>
+      </li>
+    </ol>
+    <p class="mt-5">
+      <a
+        href="/contacto"
+        class="rounded-lg bg-accent px-4 py-2 font-semibold text-accent-contrast hover:opacity-90"
+      >
+        Ir al formulario
+      </a>
+    </p>
+  </Window>
+
+  <Window title="notas" class="mt-8">
+    <Callout tone="muted" title="TODO(matias)">
+      <p>
+        Los términos definitivos los redacta Matías: falta definir qué pasa si el proyecto se
+        cancela, cómo se aplica el descuento a trabajos por hora y la aclaración sobre que el
+        código no tiene valor monetario ni es transferible.
+      </p>
+    </Callout>
+  </Window>
+</Page>

@@ -1,0 +1,18 @@
+---
+interface Props {
+  label: string;
+  class?: string;
+  as?: 'span' | 'li';
+}
+
+const { label, class: className = '', as: Element = 'span' } = Astro.props;
+---
+
+<Element
+  class:list={[
+    'inline-flex items-center rounded border border-border bg-surface-2 px-2 py-0.5 font-mono text-xs text-text-muted',
+    className,
+  ]}
+>
+  {label}
+</Element>

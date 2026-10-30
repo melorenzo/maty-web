@@ -1,0 +1,8 @@
+dist
+node_modules
+.astro
+.wrangler
+coverage
+package-lock.json
+PLAN.md
+docs

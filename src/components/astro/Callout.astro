@@ -1,0 +1,23 @@
+---
+interface Props {
+  title?: string;
+  tone?: 'accent' | 'ok' | 'terminal' | 'muted';
+}
+
+const { title, tone = 'accent' } = Astro.props;
+---
+
+<aside
+  class:list={[
+    'rounded-lg border-l-4 bg-surface p-4',
+    tone === 'accent' && 'border-accent',
+    tone === 'ok' && 'border-ok',
+    tone === 'terminal' && 'border-terminal',
+    tone === 'muted' && 'border-border',
+  ]}
+>
+  {title && <p class="font-mono-label mb-1 text-text-muted">{title}</p>}
+  <div class="prose-maty text-sm">
+    <slot />
+  </div>
+</aside>

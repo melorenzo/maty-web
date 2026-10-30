@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import Window from '../components/astro/Window.astro';
+import Dock from '../components/astro/Dock.astro';
+import CommandPalette from '../components/react/CommandPalette.tsx';
+import ThemeToggle from '../components/react/ThemeToggle.tsx';
+import { dockApps } from '../data/dock';
+---
+
+<Base title="404 · página no encontrada" noindex>
+  <main id="contenido" class="mx-auto flex min-h-[70vh] max-w-3xl flex-col justify-center px-4 pb-28 pt-10">
+    <Window title="error 404" tone="accent">
+      <p class="font-mono text-sm text-text-muted">$ locate <span class="text-accent">{Astro.url.pathname}</span></p>
+      <p class="mt-1 font-mono text-sm text-[#e5484d]">locate: no such file or directory</p>
+
+      <h1 class="mt-6 text-2xl font-bold tracking-tight">Esta ruta no existe</h1>
+      <p class="mt-2 text-text-muted">
+        Puede que el link esté viejo o que la página haya cambiado de nombre. Volvé al escritorio y
+        seguí desde ahí.
+      </p>
+
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href="/"
+          class="rounded-lg bg-accent px-4 py-2 font-semibold text-accent-contrast hover:opacity-90"
+        >
+          Ir al inicio
+        </a>
+        <a
+          href="/man"
+          class="rounded-lg border border-border bg-surface px-4 py-2 font-semibold hover:bg-surface-2"
+        >
+          Ver el manual
+        </a>
+      </div>
+    </Window>
+  </main>
+
+  <Dock apps={dockApps} />
+  <CommandPalette client:idle />
+  <ThemeToggle client:idle />
+</Base>

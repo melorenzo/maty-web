@@ -1,0 +1,26 @@
+---
+import type { StackGroup } from '../../data/types';
+import Tag from './Tag.astro';
+
+interface Props {
+  groups: StackGroup[];
+}
+
+const { groups } = Astro.props;
+---
+
+<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  {
+    groups.map((group) => (
+      <div class="rounded-lg border border-border bg-surface p-5">
+        <h3 class="font-mono-label text-accent">{group.title}</h3>
+        <p class="mt-2 mb-4 text-sm text-text-muted">{group.description}</p>
+        <ul class="flex flex-wrap gap-1.5">
+          {group.items.map((item) => (
+            <Tag label={item.note ? `${item.name} · ${item.note}` : item.name} as="li" />
+          ))}
+        </ul>
+      </div>
+    ))
+  }
+</div>

@@ -1,0 +1,22 @@
+---
+interface Props {
+  items: { label: string; value: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<div
+  class="border-y border-border bg-surface/80 px-4 py-2 font-mono text-xs text-text-muted backdrop-blur"
+>
+  <ul class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-1">
+    {
+      items.map((item) => (
+        <li class="flex items-center gap-2">
+          <span class="uppercase tracking-widest opacity-70">{item.label}</span>
+          <span class="text-text">{item.value}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

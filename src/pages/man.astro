@@ -1,0 +1,72 @@
+---
+import Page from '../layouts/Page.astro';
+import Window from '../components/astro/Window.astro';
+import { commands, groupLabels } from '../lib/commands';
+import { terminalCommands } from '../lib/terminal/commands';
+
+const paleta = commands.filter((command) => command.group !== 'externos');
+const grupos = Object.entries(groupLabels);
+---
+
+<Page
+  title="Manual"
+  eyebrow="~/man"
+  description="Todo lo que se puede hacer con el teclado: la paleta de comandos y la terminal."
+>
+  <Window title="man matias" tone="accent">
+    <div class="prose-maty max-w-none">
+      <p>
+        Este sitio se maneja con dos herramientas: la <strong>paleta de comandos</strong> (tecla
+        <code>Ctrl</code> + <code>K</code>, o <code>⌘</code> + <code>K</code> en Mac) y la
+        <strong>terminal</strong> en la home. Las dos hacen lo mismo, con distinto lenguaje.
+      </p>
+    </div>
+  </Window>
+
+  <Window title="paleta-de-comandos" class="mt-8">
+    <p class="mb-4 text-sm text-text-muted">
+      Escribí parte de un comando y Enter lo ejecuta. <kbd class="rounded border border-border bg-surface-2 px-1 font-mono text-xs">↑</kbd>
+      y <kbd class="rounded border border-border bg-surface-2 px-1 font-mono text-xs">↓</kbd> para
+      moverte, <kbd class="rounded border border-border bg-surface-2 px-1 font-mono text-xs">Esc</kbd>
+      para cerrar.
+    </p>
+
+    {
+      grupos.map(([grupo, etiqueta]) => {
+        const items = paleta.filter((command) => command.group === grupo);
+        if (items.length === 0) return null;
+        return (
+          <div class="mb-5">
+            <h2 class="font-mono-label mb-2 text-text-muted">{etiqueta}</h2>
+            <ul class="space-y-1">
+              {items.map((command) => (
+                <li class="flex flex-wrap items-baseline justify-between gap-2 text-sm">
+                  <span>{command.title}</span>
+                  <span class="font-mono text-xs text-text-muted">{command.keywords?.join(' · ')}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })
+    }
+  </Window>
+
+  <Window title="terminal" class="mt-8">
+    <p class="mb-4 text-sm text-text-muted">
+      La terminal de la home es de verdad: responde con los datos de este sitio. Historial con
+      <kbd class="rounded border border-border bg-surface-2 px-1 font-mono text-xs">↑</kbd>/
+      <kbd class="rounded border border-border bg-surface-2 px-1 font-mono text-xs">↓</kbd>,
+      autocompletado con <kbd class="rounded border border-border bg-surface-2 px-1 font-mono text-xs">Tab</kbd>.
+    </p>
+    <ul class="grid gap-1 md:grid-cols-2">
+      {
+        terminalCommands.map((command) => (
+          <li class="font-mono text-sm text-text-muted">
+            <span class="text-ok">$</span> {command}
+          </li>
+        ))
+      }
+    </ul>
+  </Window>
+</Page>

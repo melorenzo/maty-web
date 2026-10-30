@@ -1,0 +1,109 @@
+---
+import Page from '../layouts/Page.astro';
+import Window from '../components/astro/Window.astro';
+import Callout from '../components/astro/Callout.astro';
+import Tag from '../components/astro/Tag.astro';
+import ArcadeGame from '../components/react/game/ArcadeGame.tsx';
+---
+
+<Page
+  title="Arcade"
+  eyebrow="~/arcade"
+  description="Un invasors propio, hecho en canvas sin una sola librería. Si lo ganás, te llevás un código promocional."
+>
+  <Window title="bugs-invaders" status="testing" tone="accent">
+    <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_1.2fr] lg:items-start">
+      <div>
+        <ArcadeGame client:visible />
+
+        <p class="mt-4 font-mono text-xs text-text-muted">
+          Teclado: <span class="text-terminal">←</span> <span class="text-terminal">→</span> moverte ·
+          <span class="text-terminal">espacio</span> disparar · <span class="text-terminal">P</span>
+          pausar. En el celu usá los botones.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-bold tracking-tight">Cómo se gana</h2>
+        <p class="mt-2 text-text-muted">
+          Hay que limpiar la oleada de 24 bugs. Cada fila vale distinto y tenés tres vidas: cuando
+          un bug te alcanza, perdés una. No hay jefe final, no hay levels infinitos: una partida
+          limpia es un código limpio.
+        </p>
+
+        <h2 class="mt-6 text-xl font-bold tracking-tight">Qué te llevás</h2>
+        <p class="mt-2 text-text-muted">
+          Un código promocional que sortea uno de mis tres servicios y te da 10% de descuento en el
+          primer proyecto más una sesión inicial de 30 minutos sin cargo.
+        </p>
+        <ul class="mt-3 flex flex-wrap gap-1.5">
+          <Tag label="asesoría técnica" as="li" />
+          <Tag label="diseño web" as="li" />
+          <Tag label="automatización" as="li" />
+        </ul>
+
+        <div class="mt-5">
+          <Callout title="no acumulable" tone="muted">
+            <p>
+              Un código por IP cada 24 horas, uso único por cliente y por proyecto, y no se acumula
+              con otros descuentos. Los términos completos están en
+              <a class="text-accent hover:underline" href="/promo">/promo</a>.
+            </p>
+          </Callout>
+        </div>
+
+        <div class="mt-5">
+          <Callout title="¿no podés jugar?" tone="muted">
+            <p>
+              El juego nunca es un requisito para nada del sitio. Si preferís no jugar, escribime y
+              te doy el código por otro lado.
+            </p>
+          </Callout>
+        </div>
+      </div>
+    </div>
+  </Window>
+
+  <Window title="como-funciona" class="mt-8">
+    <div class="prose-maty max-w-none">
+      <p>
+        El motor del juego está en <code>src/lib/game/engine.ts</code>: TypeScript puro, sin
+        librerías, sin <code>requestAnimationFrame</code>, sin DOM. Es una función que recibe el
+        estado y el tiempo que pasó, y devuelve el estado nuevo. La isla de React solo dibuja el
+        canvas y le pasa el input.
+      </p>
+
+      <h2>Las piezas</h2>
+      <ul>
+        <li>
+          <code>constants.ts</code>: medidas de la grilla, velocidades, puntos por fila y cooldown
+          del disparo.
+        </li>
+        <li>
+          <code>sprites.ts</code>: los bugs y el jugador dibujados con matrices de caracteres, en
+          lugar de imágenes.
+        </li>
+        <li>
+          <code>engine.ts</code>: movimiento, colisiones, vidas, oleada y puntuación.
+        </li>
+        <li>
+          <code>engine.test.ts</code>: los tests del motor, que corren sin navegador.
+        </li>
+      </ul>
+
+      <h2>Por qué así</h2>
+      <p>
+        Separar la lógica del dibujo es lo que permite testear un juego sin abrir un canvas. Los
+        tests comprueban que una bala mata al invasor de la fila correcta, que los puntos coinciden
+        con la fila, que una bomba quita una vida y que limpiar la grilla da exactamente 420 puntos:
+        ese número es el que el servidor usa para validar que la partida fue real.
+      </p>
+
+      <h2>El código es libre</h2>
+      <p>
+        Todo esto está en el repositorio público de este sitio. Podés forkearlo, jugarlo, meterle
+        más filas o cambiar los sprites. Si querés, mandame tu versión.
+      </p>
+    </div>
+  </Window>
+</Page>

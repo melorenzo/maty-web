@@ -1,0 +1,58 @@
+---
+interface Props {
+  title: string;
+  id?: string;
+  status?: 'running' | 'building' | 'testing' | 'archived' | 'info';
+  tone?: 'default' | 'accent';
+  class?: string;
+}
+
+const { title, id, status = 'info', tone = 'default', class: className = '' } = Astro.props;
+
+const statusLabel: Record<NonNullable<Props['status']>, string> = {
+  running: 'running',
+  building: 'building',
+  testing: 'testing',
+  archived: 'archived',
+  info: 'info',
+};
+---
+
+<section
+  id={id}
+  class:list={[
+    'scroll-mt-24 overflow-hidden rounded-lg border border-border bg-surface shadow-window',
+    className,
+  ]}
+>
+  <header
+    class:list={[
+      'flex items-center gap-3 border-b border-border px-3 py-2',
+      tone === 'accent' ? 'bg-accent-soft' : 'bg-surface-2',
+    ]}
+  >
+    <span class="flex items-center gap-1.5" aria-hidden="true">
+      <span class="size-2.5 rounded-full bg-[#ff5f57]"></span>
+      <span class="size-2.5 rounded-full bg-[#febc2e]"></span>
+      <span class="size-2.5 rounded-full bg-[#28c840]"></span>
+    </span>
+    <h2 class="font-mono-label truncate text-text">{title}</h2>
+    {status !== 'info' && (
+      <span
+        class:list={[
+          'ml-auto rounded-full px-2 py-0.5 font-mono text-[0.65rem] tracking-wide',
+          status === 'running' && 'bg-ok-soft text-ok',
+          status === 'building' && 'bg-accent-soft text-accent',
+          status === 'testing' && 'bg-surface-3 text-text-muted',
+          status === 'archived' && 'bg-surface-3 text-text-muted',
+        ]}
+      >
+        [{statusLabel[status]}]
+      </span>
+    )}
+    <slot name="actions" />
+  </header>
+  <div class="window-body p-4 sm:p-6">
+    <slot />
+  </div>
+</section>

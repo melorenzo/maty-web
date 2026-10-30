@@ -1,0 +1,98 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import Window from '../../components/astro/Window.astro';
+import Tag from '../../components/astro/Tag.astro';
+import Badge from '../../components/astro/Badge.astro';
+
+export async function getStaticPaths() {
+  const proyectos = await getCollection('proyectos');
+  return proyectos
+    .filter((proyecto) => !proyecto.data.draft)
+    .map((proyecto) => ({ params: { slug: proyecto.id }, props: { proyecto } }));
+}
+
+interface Props {
+  proyecto: CollectionEntry<'proyectos'>;
+}
+
+const { proyecto } = Astro.props;
+const { data } = proyecto;
+const { Content } = await render(proyecto);
+---
+
+<Page title={data.title} description={data.summary}>
+  <Window title={`cat proyectos/${proyecto.id}.md`} status={data.status}>
+    <div class="mb-6 flex flex-wrap items-center gap-2">
+      <Badge
+        label={data.status}
+        tone={data.status === 'running' ? 'ok' : data.status === 'building' ? 'accent' : 'muted'}
+      />
+      <span class="font-mono text-xs text-text-muted">{data.year}</span>
+    </div>
+
+    <div class="prose-maty max-w-none">
+      <Content />
+    </div>
+
+    {
+      data.problem && (
+        <section class="mt-8 rounded-lg border border-border bg-surface-2 p-5">
+          <h2 class="font-mono-label mb-2 text-text-muted">el problema</h2>
+          <p class="text-text-muted">{data.problem}</p>
+        </section>
+      )
+    }
+
+    {
+      data.approach.length > 0 && (
+        <section class="mt-6">
+          <h2 class="font-mono-label mb-3 text-text-muted">cómo lo resolví</h2>
+          <ul class="space-y-2">
+            {data.approach.map((paso) => (
+              <li class="flex gap-2 text-sm">
+                <span class="text-ok" aria-hidden="true">
+                  ›
+                </span>
+                <span class="text-text-muted">{paso}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      data.learnings.length > 0 && (
+        <section class="mt-6">
+          <h2 class="font-mono-label mb-3 text-text-muted">lo que aprendí</h2>
+          <ul class="space-y-2">
+            {data.learnings.map((aprendizaje) => (
+              <li class="flex gap-2 text-sm">
+                <span class="text-accent" aria-hidden="true">
+                  +
+                </span>
+                <span class="text-text-muted">{aprendizaje}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <section class="mt-8 border-t border-border pt-5">
+      <h2 class="font-mono-label mb-3 text-text-muted">stack</h2>
+      <ul class="flex flex-wrap gap-1.5">
+        {data.stack.map((item) => <Tag label={item} as="li" />)}
+      </ul>
+      {data.tags.length > 0 && (
+        <ul class="mt-3 flex flex-wrap gap-1.5">
+          {data.tags.map((tag) => <Tag label={tag} as="li" />)}
+        </ul>
+      )}
+      <p class="mt-6 font-mono text-xs text-text-muted">
+        <a class="text-accent hover:underline" href="/proyectos">← todos los proyectos</a>
+      </p>
+    </section>
+  </Window>
+</Page>

@@ -1,0 +1,41 @@
+---
+import '../styles/global.css';
+import Seo from '../components/astro/Seo.astro';
+import { SITE_NAME } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+}
+
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <Seo {...props} />
+    <script is:inline>
+      try {
+        const stored = localStorage.getItem('maty-theme');
+        if (stored === 'light' || stored === 'dark') {
+          document.documentElement.dataset.theme = stored;
+        }
+      } catch (error) {
+        void error;
+      }
+    </script>
+  </head>
+  <body class="bg-bg text-text antialiased">
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <slot />
+    <footer class="border-t border-border bg-surface/80 px-4 py-6 text-center font-mono-label text-text-muted">
+      <p>
+        {SITE_NAME} · hecho con Astro, React y software libre
+      </p>
+    </footer>
+  </body>
+</html>

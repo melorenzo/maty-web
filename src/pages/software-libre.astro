@@ -1,0 +1,87 @@
+---
+import Page from '../layouts/Page.astro';
+import Window from '../components/astro/Window.astro';
+import Callout from '../components/astro/Callout.astro';
+import { manifiesto, herramientas, compromisos, principios } from '../data/foss';
+
+const contenido = { manifiesto, herramientas, compromisos, principios };
+---
+
+<Page
+  title="Software libre"
+  eyebrow="~/software-libre"
+  description="Por qué trabajo con software libre, qué herramientas uso y enseño, y por qué este sitio también es libre."
+>
+  <Window title="manifiesto" tone="accent">
+    <ul class="space-y-4">
+      {
+        contenido.manifiesto.map((item, index) => (
+          <li class="flex gap-3">
+            <span class="font-mono text-xs text-accent">{String(index + 1).padStart(2, '0')}</span>
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </Window>
+
+  <Window title="herramientas" class="mt-8">
+    <div class="grid gap-3 md:grid-cols-2">
+      {
+        contenido.herramientas.map((tool) => (
+          <div class="rounded-lg border border-border bg-surface p-4">
+            <div class="flex items-baseline justify-between gap-2">
+              <h2 class="font-semibold">{tool.name}</h2>
+              <span class="font-mono text-xs text-text-muted">{tool.category}</span>
+            </div>
+            <p class="mt-1 text-sm text-text-muted">{tool.why}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Window>
+
+  <Window title="principios" class="mt-8">
+    <ul class="grid gap-2 md:grid-cols-2">
+      {
+        contenido.principios.map((principio) => (
+          <li class="flex gap-2 rounded-lg border border-border bg-surface-2 p-3 text-sm">
+            <span class="text-ok" aria-hidden="true">
+              ✓
+            </span>
+            <span>{principio}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </Window>
+
+  <Window title="este-sitio" class="mt-8" tone="accent">
+    <div class="prose-maty max-w-none">
+      <p>
+        Este sitio no es una página cerrada: es un proyecto con licencia libre, código disponible y
+        una arquitectura pensada para que cualquiera pueda leerla, corregirla o usarla como base.
+      </p>
+    </div>
+    <ul class="mt-4 space-y-2">
+      {
+        contenido.compromisos.map((item) => (
+          <li class="flex gap-2 text-sm text-text-muted">
+            <span class="text-ok" aria-hidden="true">
+              ✓
+            </span>
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-6">
+      <Callout title="TODO(matias)" tone="muted">
+        <p>
+          Falta publicar la URL del repositorio y el archivo de licencia para que los dos enlaces
+          funcionen desde el primer deploy.
+        </p>
+      </Callout>
+    </div>
+  </Window>
+</Page>

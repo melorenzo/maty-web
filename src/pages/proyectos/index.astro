@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import ProjectCard from '../../components/astro/ProjectCard.astro';
+import Window from '../../components/astro/Window.astro';
+import Tag from '../../components/astro/Tag.astro';
+
+const proyectos = (await getCollection('proyectos'))
+  .filter((proyecto) => !proyecto.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const contenido = { proyectos };
+
+const tags = [...new Set(contenido.proyectos.flatMap((proyecto) => proyecto.data.tags))].sort();
+---
+
+<Page
+  title="Proyectos"
+  eyebrow="~/proyectos"
+  description="Software que construyo y que sigue corriendo: automatización con IA, plataformas, bots y sitios."
+>
+  <Window title="ls proyectos/" status="running">
+    <ul class="mb-6 flex flex-wrap gap-1.5">
+      {tags.map((tag) => <Tag label={tag} as="li" />)}
+    </ul>
+
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {contenido.proyectos.map((proyecto) => <ProjectCard project={proyecto} />)}
+    </div>
+  </Window>
+
+  <Window title="notas" class="mt-8">
+    <ul class="space-y-2 text-sm text-text-muted">
+      <li>· Cada proyecto tiene su ficha: problema, enfoque y aprendizajes.</li>
+      <li>· Los que no son públicos se cuentan igual, porque el aprendizaje sigue siendo real.</li>
+      <li>
+        · Con más detalle: <a class="text-accent underline underline-offset-2" href="/blog">el blog</a> y
+        <a class="text-accent underline underline-offset-2" href="/cv">el CV</a>.
+      </li>
+    </ul>
+  </Window>
+</Page>

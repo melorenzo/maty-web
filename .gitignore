@@ -1,0 +1,41 @@
+# Dependencias
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+dist/
+.astro/
+.output/
+.vercel/
+.netlify/
+.wrangler/
+
+# Entorno (nunca commitear secretos)
+.env
+.dev.vars
+.env.production
+.env.local
+.env.*.local
+
+# Tests y cobertura
+coverage/
+.vitest/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# Editores y sistema
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+
+# Datos de Zone.Identifier (Windows)
+*:Zone.Identifier
