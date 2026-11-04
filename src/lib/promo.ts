@@ -56,7 +56,7 @@ export function promoConfigFromEnv(env: {
     discount: Number(env.PROMO_DISCOUNT ?? 10),
     sessionMinutes: Number(env.PROMO_SESSION_MINUTES ?? 30),
     ttlDays: Number(env.PROMO_TTL_DAYS ?? 30),
-    dailyCap: Number(env.PROMO_DAILY_CAP ?? 50),
+    dailyCap: Number(env.PROMO_DAILY_CAP ?? 15),
   };
 }
 

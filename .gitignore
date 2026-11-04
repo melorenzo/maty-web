@@ -39,3 +39,13 @@ logs/
 
 # Datos de Zone.Identifier (Windows)
 *:Zone.Identifier
+
+# Materiales originales que sube Matías (los optimizados van en public/)
+subir/
+
+# Secretos del deploy con Docker (solo se versiona el ejemplo)
+secrets/*
+!secrets/.dev.vars.example
+
+# Paquetes de deploy generados
+dist-deploy/

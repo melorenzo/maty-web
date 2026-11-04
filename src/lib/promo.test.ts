@@ -34,7 +34,7 @@ describe('promoConfigFromEnv', () => {
       discount: 10,
       sessionMinutes: 30,
       ttlDays: 30,
-      dailyCap: 50,
+      dailyCap: 15,
     });
   });
 
