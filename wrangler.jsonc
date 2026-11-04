@@ -14,6 +14,15 @@
       "id": "dbadb4d19b8b4793aee7b99d34ed1de6"
     }
   ],
+  "vars": {
+    "MAIL_TO": "melorenzo@ymail.com",
+    "MAIL_FROM": "Maty <no-reply@fullware.com.ar>",
+    "ALLOWED_HOSTNAMES": "matiaslorenzo.com.ar,maty-web.melorenzo.workers.dev",
+    "PROMO_DISCOUNT": "10",
+    "PROMO_SESSION_MINUTES": "30",
+    "PROMO_TTL_DAYS": "30",
+    "PROMO_DAILY_CAP": "15"
+  },
   "ratelimits": [
     {
       "name": "PROMO_RATE_LIMIT",
