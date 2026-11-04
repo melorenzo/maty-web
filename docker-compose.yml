@@ -1,0 +1,46 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        SITE_URL: ${SITE_URL:-https://matiaslorenzo.com.ar}
+        PUBLIC_SITEKEY_TURNSTILE: ${PUBLIC_SITEKEY_TURNSTILE:-}
+    restart: unless-stopped
+    volumes:
+      - ./secrets/.dev.vars:/app/dist/server/.dev.vars:ro
+      - promo_state:/data
+    expose:
+      - '4321'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:4321/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN:-matiaslorenzo.com.ar}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      web:
+        condition: service_healthy
+
+volumes:
+  caddy_data:
+  caddy_config:
+  promo_state:

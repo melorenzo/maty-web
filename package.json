@@ -23,6 +23,7 @@
     "verify": "npm run check && npm run lint && npm run test && npm run build",
     "deploy": "npm run build && wrangler deploy",
     "deploy:dry": "npm run build && wrangler deploy --dry-run",
+    "pack:deploy": "bash scripts/pack-deploy.sh",
     "dev:worker": "wrangler dev",
     "cf:kv:create": "wrangler kv namespace create PROMO",
     "cf:secret": "wrangler secret put"
