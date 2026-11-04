@@ -3,14 +3,17 @@ services:
     build:
       context: .
       args:
-        SITE_URL: ${SITE_URL:-https://matiaslorenzo.com.ar}
+        SITE_URL: ${PUBLIC_SITE_URL:-https://matiaslorenzo.fullware.com.ar}
+        PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-https://matiaslorenzo.fullware.com.ar}
         PUBLIC_SITEKEY_TURNSTILE: ${PUBLIC_SITEKEY_TURNSTILE:-}
     restart: unless-stopped
     volumes:
       - ./secrets/.dev.vars:/app/dist/server/.dev.vars:ro
       - promo_state:/data
-    expose:
-      - '4321'
+    # El tunel de Cloudflare (Mytunnel) enruta matiaslorenzo.fullware.com.ar
+    # hacia http://192.168.0.94:8027: por eso el puerto se publica en el host.
+    ports:
+      - '8027:4321'
     healthcheck:
       test:
         [
@@ -20,27 +23,9 @@ services:
           "fetch('http://127.0.0.1:4321/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
         ]
       interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 20s
-
-  caddy:
-    image: caddy:2-alpine
-    restart: unless-stopped
-    ports:
-      - '80:80'
-      - '443:443'
-    environment:
-      SITE_DOMAIN: ${SITE_DOMAIN:-matiaslorenzo.com.ar}
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      web:
-        condition: service_healthy
+      timeout: 15s
+      retries: 5
+      start_period: 60s
 
 volumes:
-  caddy_data:
-  caddy_config:
   promo_state:

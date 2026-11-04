@@ -111,25 +111,24 @@ Sin `TURNSTILE_SECRET`, el formulario omite la verificación (solo para desarrol
 
 ## Deploy
 
-El destino natural es **Cloudflare Workers** (KV + rate limiting + Turnstile sin proxies):
+El sitio se publica **en tu server propio con Docker** y queda exposed por el túnel de Cloudflare
+que ya tenés configurado: la regla `matiaslorenzo.fullware.com.ar → http://192.168.0.94:8027` del
+túnel `Mytunnel` apunta al puerto que publica el contenedor, y Cloudflare termina el TLS.
 
 1. `npm run build` genera `dist/client` (estáticos) y `dist/server` (Worker).
-2. `npm run deploy` sube el Worker con los bindings de `wrangler.jsonc`:
-   - `PROMO`: KV con los contadores y los códigos emitidos.
-   - `PROMO_RATE_LIMIT`: rate limiting anti-abuso (10 req/min por IP).
-   - `ASSETS`: assets estáticos.
-3. En Cloudflare Dashboard se agrega el dominio personalizado y el `workers.dev` queda como
-   respaldo mientras tanto.
+2. `npm run pack:deploy` genera el `tar.gz` para llevar al server.
+3. En el server: `docker compose up -d --build` (publica el puerto 8027).
+
+Como alternativa, el mismo código se puede subir como **Cloudflare Workers** (`npm run deploy`),
+que en vez del runtime local usa el KV y el rate limiting reales de Cloudflare.
 
 El dominio canónico se define con `SITE_URL` al construir:
 
 ```bash
-SITE_URL=https://matiaslorenzo.com.ar npm run build
+SITE_URL=https://matiaslorenzo.fullware.com.ar npm run build
 ```
 
-También hay un camino **con Docker** para llevar el sitio a un server propio: `Dockerfile`,
-`docker-compose.yml` y `Caddyfile` (TLS automático) en la raíz, y `npm run pack:deploy` genera el
-`tar.gz` para el server. Los dos caminos están documentados en [DEPLOY.md](DEPLOY.md).
+Los dos caminos están documentados en [DEPLOY.md](DEPLOY.md).
 
 ## Arcade y códigos promocionales
 

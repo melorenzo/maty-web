@@ -8,9 +8,11 @@ RUN npm ci --include=optional
 
 COPY . .
 
-ARG SITE_URL=https://matiaslorenzo.com.ar
+ARG SITE_URL=https://matiaslorenzo.fullware.com.ar
+ARG PUBLIC_SITE_URL=https://matiaslorenzo.fullware.com.ar
 ARG PUBLIC_SITEKEY_TURNSTILE=
 ENV SITE_URL=$SITE_URL \
+    PUBLIC_SITE_URL=$PUBLIC_SITE_URL \
     PUBLIC_SITEKEY_TURNSTILE=$PUBLIC_SITEKEY_TURNSTILE
 
 RUN npm run build
@@ -41,7 +43,7 @@ USER node
 
 EXPOSE 4321
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=15s --start-period=60s --retries=5 \
   CMD node -e "fetch('http://127.0.0.1:4321/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
 CMD ["npx", "wrangler", "dev", "--config", "dist/server/wrangler.json", "--ip", "0.0.0.0", "--port", "4321", "--persist-to", "/data"]

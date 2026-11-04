@@ -1,4 +1,8 @@
-export const SITE_URL = (import.meta.env.SITE_URL ?? 'https://matiaslorenzo.com.ar').replace(/\/$/, '');
+export const SITE_URL = (
+  import.meta.env.PUBLIC_SITE_URL ??
+  import.meta.env.SITE_URL ??
+  'https://matiaslorenzo.fullware.com.ar'
+).replace(/\/$/, '');
 
 export const SITE_NAME = 'Maty';
 
