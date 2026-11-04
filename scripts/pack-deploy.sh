@@ -16,7 +16,8 @@ if ! git diff --quiet || ! git diff --cached --quiet || [ -n "$(git ls-files --o
 fi
 
 mkdir -p "$DESTINO"
-git archive --format=tar.gz --output="${DESTINO}/${NOMBRE}" HEAD
+# El prefijo deja todo dentro de una carpeta maty-web/ al descomprimir.
+git archive --format=tar.gz --prefix=maty-web/ --output="${DESTINO}/${NOMBRE}" HEAD
 
 echo "Paquete: ${DESTINO}/${NOMBRE}"
 echo "En el server: tar -xzf ${NOMBRE} && cd maty-web && docker compose up -d --build"
