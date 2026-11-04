@@ -1,11 +1,49 @@
+<div align="center">
+
 # maty-web
 
-Sitio personal de **Matías Lorenzo**: docente de tecnología, developer y divulgador de software
-libre. El concepto es un **escritorio Linux**: cada sección del perfil es una ventana, la barra
-lateral es un dock y hay una terminal jugable con comandos reales del sitio.
+**Sitio personal de Matías Lorenzo** — docente de tecnología, developer y divulgador de software libre.
 
- Incluye un **arcade propio** (Space Invaders) que, al completarse con un score legítimo, libera un
-**código promocional** para un primer servicio de 30 minutos sin cargo.
+La web entera es un **escritorio Linux**: cada sección es una ventana, la barra lateral es un dock
+y hay una terminal jugable con comandos reales del sitio. Incluye un **arcade propio** (Space
+Invaders) que, al completarse con una partida legítima, libera un **código promocional** para un
+primer servicio de 30 minutos sin cargo.
+
+[![CI](https://github.com/melorenzo/maty-web/actions/workflows/ci.yml/badge.svg)](https://github.com/melorenzo/maty-web/actions/workflows/ci.yml)
+[![Licencia](https://img.shields.io/badge/licencia-MIT-b8430f)](LICENSE)
+[![Astro](https://img.shields.io/badge/astro-7-ff5d01?logo=astro&logoColor=white)](https://astro.build)
+[![Workers](https://img.shields.io/badge/deploy-Cloudflare%20Workers-f38020?logo=cloudflare&logoColor=white)](https://workers.cloudflare.com)
+[![Node](https://img.shields.io/badge/node-24-5fa04e)](https://nodejs.org)
+
+</div>
+
+---
+
+## Capturas
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/captura-home.png" alt="Portada del sitio: escritorio Linux con dock, terminal y avatar"></td>
+    <td width="50%"><img src="docs/captura-arcade.png" alt="Página del arcade con el juego de invasores en canvas"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Portada: escritorio, terminal y dock</sub></td>
+    <td align="center"><sub>Arcade: canvas puro, sin librerías</sub></td>
+  </tr>
+</table>
+
+## Qué hay adentro
+
+| Sección | Qué hace |
+| --- | --- |
+| **Portada** | Escritorio Linux: ventanas, dock y una terminal con comandos reales (`help`, `projects`, `cv`, `contact`, `clear`…). |
+| **Proyectos** | Fichas de proyectos reales escritos en Markdown (`src/content/proyectos/`) con contexto, problema y solución. |
+| **Aula** | Rutas de aprendizaje y materiales para docentes: programación, IA, web, hardware y automatizaciones. |
+| **Arcade** | Space Invaders hecho en canvas, sin librerías: motor propio en TypeScript, teclado y táctil, modo cine y efectos 8-bit. |
+| **Códigos** | El arcade libera códigos promocionales (10% + 30 min sin cargo) validados en el servidor. |
+| **CV** | Trayectoria completa en HTML y **PDF descargable**, generado desde los mismos datos tipados. |
+| **Contacto** | Formulario con Turnstile, envío por Resend y validación del código promocional. |
+| **Software libre** | Herramientas open source que usa y recomienda. |
 
 ## Stack
 
@@ -48,12 +86,15 @@ src/
   components/astro/   ventanas, dock, tarjetas, SEO
   components/react/   islas: terminal, paleta, tema, arcade, formulario
   content/proyectos/  fichas de proyectos en Markdown
-  data/               contenido tipado del perfil
+  data/               contenido tipado del perfil (fuente de verdad)
   layouts/            Base.astro y Page.astro
-  lib/                lógica pura: game, promo, contact, terminal, blog
+  lib/                lógica pura: game, promo, contact, terminal, blog, cv-pdf
   pages/              rutas y endpoints /api
   styles/global.css   tokens y tema
 ```
+
+`src/data/` es la **única fuente de verdad**: el HTML y el PDF del CV se arman a partir de ahí, así
+que no hay dos versiones del mismo contenido que se desincronicen.
 
 ## Variables de entorno
 
@@ -70,6 +111,8 @@ Sin `TURNSTILE_SECRET`, el formulario omite la verificación (solo para desarrol
 
 ## Deploy
 
+El destino natural es **Cloudflare Workers** (KV + rate limiting + Turnstile sin proxies):
+
 1. `npm run build` genera `dist/client` (estáticos) y `dist/server` (Worker).
 2. `npm run deploy` sube el Worker con los bindings de `wrangler.jsonc`:
    - `PROMO`: KV con los contadores y los códigos emitidos.
@@ -84,14 +127,21 @@ El dominio canónico se define con `SITE_URL` al construir:
 SITE_URL=https://matiaslorenzo.com.ar npm run build
 ```
 
+También hay un camino **con Docker** para llevar el sitio a un server propio: `Dockerfile`,
+`docker-compose.yml` y `Caddyfile` (TLS automático) en la raíz, y `npm run pack:deploy` genera el
+`tar.gz` para el server. Los dos caminos están documentados en [DEPLOY.md](DEPLOY.md).
+
 ## Arcade y códigos promocionales
 
 - El juego vive en `src/lib/game/` (motor puro, sin DOM) y la isla React solo dibuja.
+- La música es `public/audio/arcade-theme.mp3` y **arranca con la primera interacción** (tecla o
+  botón), como exigen los navegadores; el botón `sonido` del marcador lo apaga. Los efectos 8-bit
+  (disparo, baja, impacto, victoria) se sintetizan con WebAudio, sin archivos.
 - Una partida legítima exige: 24 impactos, al menos 24 disparos y un score exacto de **420**.
 - El servidor no confía en el cliente: recalcula el resultado y valida el reto HMAC
   (`POST /api/promo/challenge` → `POST /api/promo/redeem`).
 - Reglas del código: 10% de descuento, sesión inicial de 30 minutos sin cargo, 1 código por IP
-  cada 24 h, uso único, no acumulable, 30 días de vigencia y tope global de 50 códigos por día.
+  cada 24 h, uso único, no acumulable, 30 días de vigencia y tope global de 15 códigos por día.
 - Formato: `MATE-<ASES|DISE|AUTO>-XXXX`.
 
 ## Privacidad

@@ -1,7 +1,6 @@
 ---
 import Page from '../layouts/Page.astro';
 import Window from '../components/astro/Window.astro';
-import Callout from '../components/astro/Callout.astro';
 import TimelineItem from '../components/astro/TimelineItem.astro';
 import { experiencia } from '../data/experiencia';
 import { formacion, certificaciones } from '../data/formacion';
@@ -77,11 +76,17 @@ const contenido = { experiencia, formacion, certificaciones, stack };
   </Window>
 
   <Window title="descargar" class="mt-8">
-    <Callout tone="muted" title="TODO(matias)">
-      <p>
-        Falta el PDF del CV con el diseño final para agregarlo acá como descarga. Mientras tanto, la
-        versión de texto completa es esta.
+    <div class="flex flex-wrap items-center gap-4">
+      <a
+        href="/cv.pdf"
+        download="CV-Matias-Lorenzo.pdf"
+        class="rounded-lg bg-accent px-4 py-2 font-semibold text-accent-contrast hover:opacity-90"
+      >
+        Descargar CV en PDF
+      </a>
+      <p class="text-sm text-text-muted">
+        Se arma desde los mismos datos de esta página, así que siempre está actualizado.
       </p>
-    </Callout>
+    </div>
   </Window>
 </Page>

@@ -1,7 +1,6 @@
 ---
 import Page from '../layouts/Page.astro';
 import Window from '../components/astro/Window.astro';
-import Callout from '../components/astro/Callout.astro';
 import Tag from '../components/astro/Tag.astro';
 ---
 
@@ -31,8 +30,8 @@ import Tag from '../components/astro/Tag.astro';
         promociones.
       </li>
       <li class="rounded-lg border border-border bg-surface-2 p-3 text-sm">
-        <span class="font-semibold">Emisión:</span> un código por IP cada 24 horas y un tope diario
-        de códigos.
+        <span class="font-semibold">Emisión:</span> un código por IP cada 24 horas y un tope de 15
+        códigos por día.
       </li>
     </ul>
 
@@ -69,13 +68,139 @@ import Tag from '../components/astro/Tag.astro';
     </p>
   </Window>
 
-  <Window title="notas" class="mt-8">
-    <Callout tone="muted" title="TODO(matias)">
+  <Window title="terminos" class="mt-8">
+    <div class="prose-maty max-w-none text-sm">
       <p>
-        Los términos definitivos los redacta Matías: falta definir qué pasa si el proyecto se
-        cancela, cómo se aplica el descuento a trabajos por hora y la aclaración sobre que el
-        código no tiene valor monetario ni es transferible.
+        Estos términos regulan el uso de los códigos promocionales que se obtienen jugando al arcade
+        de este sitio. Al usar un código aceptás lo que sigue.
       </p>
-    </Callout>
+
+      <h3>1. Qué otorga el código</h3>
+      <p>
+        Un código válido otorga dos cosas: un <strong>10% de descuento</strong> sobre el primer
+        proyecto que contratés y una <strong>sesión inicial de hasta 30 minutos sin cargo</strong>
+        para definir alcance, tiempos y presupuesto. El descuento se aplica una sola vez, sobre el
+        primer proyecto facturado.
+      </p>
+
+      <h3>2. Servicios a los que aplica</h3>
+      <p>
+        El código indica la línea de servicio: asesoría técnica (<code>ASES</code>), diseño web
+        (<code>DISE</code>) o automatización (<code>AUTO</code>). Si tu proyecto es de otra línea,
+        escribime y evalúo si el código se puede aplicar igual.
+      </p>
+
+      <h3>3. Vigencia</h3>
+      <p>
+        El código vence <strong>30 días corridos desde su emisión</strong>. Pasada la vigencia se
+        invalida: no se puede reclamar, no se renueva y no se reemplaza por otro.
+      </p>
+
+      <h3>4. Uso único</h3>
+      <p>
+        Cada código se usa <strong>una sola vez</strong>, por <strong>una sola persona</strong> y
+        para <strong>un solo proyecto</strong>. Queda registrado como usado en el momento en que se
+        aplica a un presupuesto.
+      </p>
+
+      <h3>5. Cómo se aplica el descuento</h3>
+      <ul>
+        <li>
+          El descuento se aplica a <strong>trabajos por proyecto</strong>: en un presupuesto con
+          precio cerrado se descuenta el 10% del total.
+        </li>
+        <li>
+          No aplica a trabajos por hora, a tareas sueltas ni a <strong>trabajos ya facturados</strong>
+          antes de la emisión del código.
+        </li>
+        <li>
+          El descuento se usa <strong>una sola vez</strong>, sobre el primer proyecto facturado.
+        </li>
+      </ul>
+
+      <h3>6. La sesión inicial sin cargo</h3>
+      <p>
+        Son hasta 30 minutos para definir el proyecto: qué hay que hacer, con qué tecnologías y en
+        cuánto tiempo. La sesión no genera trabajo facturable ni compromiso alguno por tu parte.
+      </p>
+
+      <h3>7. Cancelación del proyecto</h3>
+      <ul>
+        <li>
+          Si el proyecto se cancela <strong>antes de que haya trabajo facturado</strong> (la sesión
+          inicial no cuenta como trabajo facturado), el código conserva su vigencia y puede
+          aplicarse a otro proyecto del mismo cliente hasta su vencimiento.
+        </li>
+        <li>
+          Si <strong>ya hubo trabajo facturado</strong>, el código se considera usado: no se
+          reembolsa ni se emite uno nuevo, salvo autorización expresa de Matías por escrito.
+        </li>
+        <li>
+          Los trabajos ya entregados o facturados <strong>no se ajustan retroactivamente</strong>.
+        </li>
+      </ul>
+
+      <h3>8. No acumulable</h3>
+      <p>
+        El código no se combina con otros descuentos, promociones o códigos, ni con ofertas de
+        terceros. Cada cliente puede usar un solo código promocional.
+      </p>
+
+      <h3>9. Límites de emisión</h3>
+      <p>
+        Se emite <strong>un código por dirección IP cada 24 horas</strong> y existe un tope diario
+        de códigos para todo el público (15 por día), para que el juego siga disponible. Si se
+        detecta uso fraudulento (emulación de IP, bots o canjes automatizados), los códigos
+        involucrados pueden invalidarse sin previo aviso.
+      </p>
+
+      <h3>10. Sin valor monetario ni transferible</h3>
+      <p>
+        El código <strong>no tiene valor monetario</strong>: no es efectivo, no es transferible, no
+        es revendible, no se puede cambiar por dinero, crédito, saldo ni reembolso, y no genera
+        obligaciones de pago por parte de Matías.
+      </p>
+
+      <h3>11. Cambios en la promoción</h3>
+      <p>
+        Matías puede modificar o cancelar la promoción en cualquier momento. Los códigos ya emitidos
+        siguen siendo válidos según estos términos, salvo error técnico evidente o uso fraudulento,
+        en cuyo caso se invalidan.
+      </p>
+
+      <h3>12. Datos personales</h3>
+      <p>
+        Al emitir y al usar un código se registran el código, las fechas de emisión y uso, la
+        dirección IP desde la que se emitió y una huella cifrada del email con el que se usa. El
+        único fin es validar el canje y contactarte. Los detalles están en la
+        <a href="/privacidad">política de privacidad</a>.
+      </p>
+
+      <h3>13. Ley aplicable</h3>
+      <p>
+        Estos términos se rigen por las leyes de la República Argentina. Cualquier controversia se
+        somete a los tribunales ordinarios de la Ciudad Autónoma de Buenos Aires.
+      </p>
+
+      <h3>14. Consultas</h3>
+      <p>
+        Cualquier duda sobre los términos va por el <a href="/contacto">formulario de contacto</a>.
+      </p>
+    </div>
+  </Window>
+
+  <Window title="notas" class="mt-8">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <p class="font-semibold">Matías Lorenzo</p>
+        <p class="mt-1 text-sm text-text-muted">
+          <a href="mailto:melorenzo@fullware.com.ar">melorenzo@fullware.com.ar</a>
+          <span class="text-text-muted">· Buenos Aires, Argentina</span>
+        </p>
+      </div>
+      <p class="font-mono text-xs text-text-muted">
+        Última actualización: 4 de noviembre de 2026
+      </p>
+    </div>
   </Window>
 </Page>

@@ -279,7 +279,7 @@ Lighthouse ≥95 (perf/a11y/BP/SEO), `prefers-reduced-motion`, foco visible, con
 | Servicios sorteados | `asesoría` \| `diseño-web` \| `automatización` (lo decide el servidor) |
 | Vigencia | 30 días desde la emisión |
 | Usos | **1 código por IP cada 24 h**, uso único por proyecto, **no acumulable** |
-| Tope global | 50 códigos por día (configurable) |
+| Tope global | 15 códigos por día (configurable) |
 | Formato | `MATE-AUTO-K7F3` (servicio + 4 caracteres aleatorios) |
 
 Los términos viven en `/promo`, linkeados desde la pantalla de victoria, el footer y el formulario.
@@ -288,7 +288,10 @@ Los términos viven en `/promo`, linkeados desde la pantalla de victoria, el foo
 
 - 1 oleada de 24 bugs en 4 filas × 6 columnas, 3 vidas, escudo, pausa (`P` / blur), highscore local.
 - Score por fila: 30 / 20 / 10 / 10.
-- Blips 8-bit con WebAudio, **mute por defecto**.
+- Blips 8-bit con WebAudio (disparo, baja, impacto, victoria, game over) y **sonido prendido por
+  defecto**: la música del juego es `public/audio/arcade-theme.mp3` (loop de 1 min, 728 KB) y arranca
+  con la primera interacción (tecla o botón), que es lo que los navegadores exigen para reproducir
+  audio. El botón `sonido` del marcador lo apaga en cualquier momento.
 - Teclado (←/→, espacio) y táctil (botones + swipe).
 - Accesible: `prefers-reduced-motion` sin shake ni flashes, `aria-live` en eventos, hitbox ampliada
   y ritmo lento en modo accesible, y **el código se puede pedir por email** si no se puede jugar.
@@ -346,7 +349,7 @@ PROMO_SECRET=
 PROMO_DISCOUNT=10
 PROMO_SESSION_MINUTES=30
 PROMO_TTL_DAYS=30
-PROMO_DAILY_CAP=50
+PROMO_DAILY_CAP=15
 ALLOWED_HOSTNAMES=matiaslorenzo.com.ar,localhost
 ```
 
@@ -366,5 +369,13 @@ ALLOWED_HOSTNAMES=matiaslorenzo.com.ar,localhost
 1. Registrar `matiaslorenzo.com.ar` (fallback: `matiaslorenzo.dev` o `maty.fullware.com.ar`).
 2. Textos de los tres servicios de `/servicios` (o ideas para que los redacte).
 3. Términos del promo y política de privacidad (estructura lista, falta su firma).
-4. Confirmar: 10% de descuento, 30 min de sesión gratis, 30 días de vigencia, 50 códigos/día.
+   **Hecho**: los términos del promo están redactados (14 puntos en `/promo`) y la política de
+   privacidad ya nombra los datos que se guardan. Falta la revisión legal y los datos del responsable.
+4. Confirmar: 10% de descuento, 30 min de sesión gratis, 30 días de vigencia, 15 códigos/día.
 5. Avatar, logos de proyectos y OG image (placeholders SVG en el meantime).
+   **Hecho**: avatar `public/avatar.webp` (512×512, 24 KB) y OG `public/og-maty.jpg`
+   (1200×630, 78 KB) hechos con la foto `subir/ML.png`. Falta los logos de cada proyecto.
+6. **Hecho**: CV descargable en PDF: `src/lib/cv-pdf.ts` arma el PDF a mano (sin dependencias) desde
+   `src/data/`, y `src/pages/cv.pdf.ts` lo sirve como endpoint estático en `/cv.pdf`.
+7. **Hecho**: README de GitHub con capturas (`docs/captura-home.png`, `docs/captura-arcade.png`),
+   tabla de secciones y badges de CI.

@@ -23,8 +23,9 @@ import Callout from '../components/astro/Callout.astro';
           únicamente para responderte.
         </li>
         <li>
-          <strong>Códigos promocionales:</strong> se registra el código emitido y que fue usado, con
-          una huella cifrada del email para evitar que un mismo código se reutilice.
+          <strong>Códigos promocionales:</strong> se registra el código emitido, si fue usado, las
+          fechas, la dirección IP desde la que se emitió y una huella cifrada (SHA-256) del email,
+          para validar el canje y evitar que un mismo cliente use dos códigos.
         </li>
         <li>
           <strong>Preferencias locales:</strong> el tema claro u oscuro se guarda en tu navegador
@@ -51,13 +52,26 @@ import Callout from '../components/astro/Callout.astro';
         contacto se archivan en el servidor de correo y en el hosting del sitio, bajo control de
         Matías Lorenzo.
       </p>
+
+      <div class="mt-8 flex flex-wrap items-end justify-between gap-6 border-t border-border pt-6">
+        <div>
+          <p class="font-semibold">Matías Lorenzo</p>
+          <p class="mt-1 text-sm text-text-muted">
+            <a href="mailto:melorenzo@fullware.com.ar">melorenzo@fullware.com.ar</a>
+            <span class="text-text-muted">· Buenos Aires, Argentina</span>
+          </p>
+        </div>
+        <p class="font-mono text-xs text-text-muted">
+          Última actualización: 4 de noviembre de 2026
+        </p>
+      </div>
     </div>
 
     <div class="mt-6">
       <Callout tone="muted" title="TODO(matias)">
         <p>
-          Revisar esta política con un profesional de datos personales antes de publicar, y
-          completar el nombre del responsable, el domicilio y la fecha de actualización.
+          La política está completa en su redacción. Falta la revisión con un profesional de datos
+          personales y el domicilio del responsable antes de publicar.
         </p>
       </Callout>
     </div>
