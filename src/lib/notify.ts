@@ -72,8 +72,18 @@ export async function sendEmail(
       }),
     });
 
-    return response.ok;
-  } catch {
+    if (!response.ok) {
+      console.warn(
+        `[contact] Resend respondió ${response.status}: ${(await response.text()).slice(0, 200)}`,
+      );
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.warn(
+      `[contact] no se pudo llamar a Resend: ${error instanceof Error ? error.message : String(error)}`,
+    );
     return false;
   }
 }
