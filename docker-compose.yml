@@ -7,6 +7,11 @@ services:
         PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-https://matiaslorenzo.fullware.com.ar}
         PUBLIC_SITEKEY_TURNSTILE: ${PUBLIC_SITEKEY_TURNSTILE:-}
     restart: unless-stopped
+    # El resolver del host a veces no responde desde la red de Docker (EAI_AGAIN),
+    # y sin DNS no hay email (Resend) ni verificación anti-bot (Turnstile).
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
     volumes:
       - ./secrets/.dev.vars:/app/dist/server/.dev.vars:ro
       - promo_state:/data
