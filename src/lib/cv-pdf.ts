@@ -42,8 +42,8 @@ const WIN_ANSI: Record<string, number> = {
   '•': 0x95,
   '–': 0x96,
   '—': 0x97,
-  '→': 0x3e,
-  '←': 0x3c,
+  '→': 0x96,
+  '←': 0x96,
   '♥': 0x2a,
   '×': 0x78,
 };
@@ -272,7 +272,7 @@ export function buildCvPdf(): Uint8Array<ArrayBuffer> {
   const contacto: Array<[string, string | null]> = [
     [AUTHOR.email, `mailto:${AUTHOR.email}`],
     [AUTHOR.city, null],
-    ['matiaslorenzo.com.ar', 'https://matiaslorenzo.com.ar'],
+    ['matiaslorenzo.fullware.com.ar', 'https://matiaslorenzo.fullware.com.ar'],
     ['github.com/melorenzo', 'https://github.com/melorenzo'],
     ['linkedin.com/in/matias-lorenzo33', 'https://www.linkedin.com/in/matias-lorenzo33'],
   ];
@@ -394,7 +394,7 @@ export function buildCvPdf(): Uint8Array<ArrayBuffer> {
     opsPagina.push(
       `BT ${color(COLOR_SUAVE)} rg /F1 8 Tf 0 Tc 1 0 0 1 ${MARGEN} ${yPie.toFixed(
         2,
-      )} Tm (${escapar(aWinAnsi('matiaslorenzo.com.ar'))}) Tj ET`,
+      )} Tm (${escapar(aWinAnsi('matiaslorenzo.fullware.com.ar'))}) Tj ET`,
     );
     const pie = `Página ${indice + 1} de ${totalPaginas}`;
     const anchoPie = anchoDeTexto(pie, 8);

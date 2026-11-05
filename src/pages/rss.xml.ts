@@ -9,7 +9,7 @@ export async function GET(context: APIContext) {
     title: 'Maty — notas sobre tecnología y software libre',
     description:
       'Artículos sobre automatización, IA, infraestructura y software libre, con foco en educación.',
-    site: context.site ?? 'https://matiaslorenzo.com.ar',
+    site: context.site ?? 'https://matiaslorenzo.fullware.com.ar',
     items: posts.map((post) => ({
       title: post.title,
       description: post.excerpt,

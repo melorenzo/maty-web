@@ -64,7 +64,7 @@ export async function sendEmail(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: env.MAIL_FROM ?? 'Maty <no-reply@matiaslorenzo.com.ar>',
+        from: env.MAIL_FROM ?? 'Maty <no-reply@fullware.com.ar>',
         to,
         reply_to: payload.email,
         subject,

@@ -5,8 +5,8 @@ export const experiencia: ExperienceItem[] = [
     id: 'facilitador-pedagogico-digital',
     role: 'Facilitador Pedagógico Digital',
     org: 'Ministerio de Educación — GCBA',
-    period: '2026 → hoy',
-    current: true,
+    period: 'marzo 2026 → octubre 2026',
+    current: false,
     summary:
       'Acompaño a docentes en la integración de tecnologías digitales e IA en el aula, con foco en la mirada pedagógica y ética.',
     highlights: [
