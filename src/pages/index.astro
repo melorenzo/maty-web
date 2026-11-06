@@ -14,13 +14,14 @@ import Footer from '../components/astro/Footer.astro';
 import CommandPalette from '../components/react/CommandPalette.tsx';
 import Terminal from '../components/react/Terminal.tsx';
 import ThemeToggle from '../components/react/ThemeToggle.tsx';
+import BlogPosts from '../components/react/BlogPosts.tsx';
 import { stack } from '../data/stack';
 import { experiencia } from '../data/experiencia';
 import { formacion, certificaciones } from '../data/formacion';
 import { servicios } from '../data/servicios';
 import { metodologia, rutas, materias } from '../data/aula';
 import { manifiesto, herramientas, compromisos } from '../data/foss';
-import { getLatestPosts, formatDate } from '../lib/blog';
+import { getLatestPosts } from '../lib/blog';
 import { AUTHOR } from '../data/site';
 
 const proyectos = (await getCollection('proyectos'))
@@ -365,24 +366,7 @@ const bootLines = [
       </Window>
 
       <Window title="blog" id="blog" status="running">
-        {
-          posts.length === 0 ? (
-            <p class="text-sm text-text-muted">
-              No pude leer el feed del blog en este build. <a class="text-accent hover:underline" href="https://blog.fullware.com.ar">Ir directo al blog</a>.
-            </p>
-          ) : (
-            <ul class="space-y-3">
-              {posts.map((post) => (
-                <li class="flex flex-wrap items-baseline gap-x-3">
-                  <span class="font-mono text-xs text-text-muted">{formatDate(post.date)}</span>
-                  <a class="font-semibold hover:text-accent" href={post.link} target="_blank" rel="noreferrer noopener">
-                    {post.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )
-        }
+        <BlogPosts client:idle initialPosts={posts} limit={4} variant="home" />
         <p class="mt-4 font-mono text-xs text-text-muted">
           <a class="text-accent hover:underline" href="/blog">todos los artículos</a>
         </p>
